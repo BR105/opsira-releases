@@ -1,4 +1,4 @@
-# editor-fotos-releases
+# opsira-releases
 
 Archivos públicos que descarga la app (el código vive en un repo privado aparte).
 
