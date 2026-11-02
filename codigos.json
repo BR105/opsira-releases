@@ -1,7 +1,29 @@
 {
-  "codigos": [
-    "9970370ce5f768e211dd71bbd83472062d91d4c16e443116945c66823165a181",
-    "07d21e86111b5ce5f886ea05c91f0c90952878a15ffe6540da45fd56cabcdcce",
-    "7aceefd74ebf51eeebd80368c8854b0999cfac496aec7010ff6a1f4fcc9bf9aa"
-  ]
+    "codigos":  [
+                    "9970370ce5f768e211dd71bbd83472062d91d4c16e443116945c66823165a181",
+                    "07d21e86111b5ce5f886ea05c91f0c90952878a15ffe6540da45fd56cabcdcce",
+                    "7aceefd74ebf51eeebd80368c8854b0999cfac496aec7010ff6a1f4fcc9bf9aa"
+                ],
+    "desbloqueo":  [
+                       "062122acb76c0ca095f6ca7cc449d0a05ee972f28012b342033f6a069ecc416e",
+                       "e97e1d183822c3b88214c1d02c6229322cb9706f0312a4e12d875defbd6f6d55",
+                       "01306446d92a4e6735adb3da40a34f0d26c7614d7f7db5b522c35c269d04d464",
+                       "caf0dcd21e833211cf0492a2bd96e48c72b01084ac106dc149f2e27c7c82c600",
+                       "90b77871cc93cad69fe59117c44150318e7317d054b10a3f03d0f309a18ef2dc",
+                       "355ad86a1f83da02242bc480c4895137188af7a5d515c36524c3cdba51952942",
+                       "55dffa4e86e5dabc65491bee55fe39c02e0e88162b0e575d9c51719d73c188a5",
+                       "af25475af987e3b678c141f599ddc8e24f8ec047a26c8d57b8ada8b987998379",
+                       "90903653acef522e1d1a1d029a772188628e6bf12863ddb89f82b838143576e6",
+                       "0ce767ec160b04d681a368cabe89af3c420f03c6ffe747def6dcc95151fa59c1",
+                       "75f6b52907b1e9f8b3d175520e7c7564b4fd2599b95bd11f4e3ce6bacdab0c0f",
+                       "7bf1d3f4b452be728d50175aa24354361668c7d808fd00204b8638298db94a6e",
+                       "21d0de503b877359b492731e30cd3ba5dc5ad648aff8ba16a534ecc96018c158",
+                       "22b96928ab7b5852bc5726fb842a131200de9db068b32dec8f413b158b506331",
+                       "214e200b7443062ea78b2386c884909169981a3b9f01955bd00df91a25c74a1d",
+                       "51770388b9974e1c0b0866ff6fe8a659e88025b9f0eaf2e11f02359bdcbb46d8",
+                       "6353c14cf77a72591d9e8a56f2ab487e816c1421ab64fbe0e228ef64bf6e0ee9",
+                       "1fd825638ba47bd760a16316c790b308fd953e9c0ef73dfa39668485f42b3e6c",
+                       "945c643f0ce2a745bfba1e7270830d0ce33347aca807c6db661606584c54c6f2",
+                       "3825732d95cfd9c1f54b62c9f440778b79e93135ecc8c319eb7213c9be40c60e"
+                   ]
 }

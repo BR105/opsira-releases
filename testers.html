@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba Opsira</title>
+<meta name="description" content="Únete a la prueba de Opsira, un editor de fotos y video para Android.">
+<meta property="og:title" content="Prueba Opsira antes que nadie">
+<meta property="og:description" content="Un editor de fotos y video para Android. Únete a la prueba en tres pasos.">
+<style>
+  :root {
+    color-scheme: dark;
+    --fondo: #0e0e10; --fondo2: #2a1b4a; --texto: #f4f2f7; --suave: #b8b3c4;
+    --tarjeta: #1a1722; --borde: #2e2a3a; --acento: #ff2a2a; --hecho: #4ade80;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--texto);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, var(--fondo2), var(--fondo) 60%);
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 40px 16px 64px; }
+  .marca { color: #ff5a5a; font-weight: 700; letter-spacing: .12em; font-size: .85rem; }
+  h1 { font-size: 2.3rem; line-height: 1.1; margin: .3rem 0 .6rem; }
+  .intro { color: var(--suave); margin: 0 0 1.8rem; }
+  ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  li {
+    background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 16px;
+    padding: 16px; display: grid; grid-template-columns: 36px 1fr; gap: 4px 12px; align-items: start;
+  }
+  .num {
+    grid-row: span 3; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+    background: #2e2a3a; font-weight: 700;
+  }
+  li.listo .num { background: var(--hecho); color: #0e0e10; }
+  h2 { font-size: 1.05rem; margin: 6px 0 0; }
+  p.paso { margin: 0; color: var(--suave); font-size: .95rem; }
+  a.boton {
+    display: inline-block; margin-top: 10px; padding: 12px 18px; border-radius: 999px; text-decoration: none;
+    background: var(--acento); color: #fff; font-weight: 600; min-height: 44px;
+  }
+  li.listo a.boton { background: #2e2a3a; }
+  a.boton:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+  .nota {
+    margin-top: 1.6rem; padding: 14px 16px; border-radius: 12px; font-size: .92rem;
+    background: rgba(255, 42, 42, .08); border: 1px solid rgba(255, 42, 42, .35); color: var(--texto);
+  }
+  .regalo { margin-top: 1.6rem; color: var(--suave); font-size: .95rem; }
+  footer { margin-top: 2.4rem; color: var(--suave); font-size: .85rem; }
+  footer a { color: var(--suave); }
+</style>
+</head>
+<body>
+<main>
+  <div class="marca">OPSIRA</div>
+  <h1>Prueba Opsira antes que nadie</h1>
+  <p class="intro">Es un editor de fotos y video para Android que estoy haciendo. Antes de publicarlo, Google pide que
+    varias personas lo prueben. Son tres pasos y toma un par de minutos.</p>
+
+  <ol>
+    <li id="p1">
+      <span class="num">1</span>
+      <h2>Únete al grupo</h2>
+      <p class="paso">Es un grupo de Google: toca "Unirse al grupo". No recibes correos.</p>
+      <a class="boton" href="https://groups.google.com/g/opsira-testers" target="_blank" rel="noopener">Unirme al grupo</a>
+    </li>
+    <li id="p2">
+      <span class="num">2</span>
+      <h2>Acepta ser tester</h2>
+      <p class="paso">Con la misma cuenta de Google, toca "Convertirse en verificador".</p>
+      <a class="boton" href="https://play.google.com/apps/testing/com.geckoapps.opsira" target="_blank" rel="noopener">Aceptar la prueba</a>
+    </li>
+    <li id="p3">
+      <span class="num">3</span>
+      <h2>Descárgala</h2>
+      <p class="paso">Ábrela desde Play Store. Si dice que no está disponible, espera unos minutos y vuelve a intentar.</p>
+      <a class="boton" href="https://play.google.com/store/apps/details?id=com.geckoapps.opsira" target="_blank" rel="noopener">Abrir en Play Store</a>
+    </li>
+  </ol>
+
+  <div class="nota">Usa la misma cuenta de Google en los tres pasos y en la Play Store de tu teléfono.
+    Déjala instalada al menos 14 días: es lo que pide Google para poder publicarla.</div>
+
+  <p class="regalo">Por ayudarme te doy un código que desbloquea todo dentro de la app.
+    Escríbeme cuando la tengas instalada:
+    <a href="mailto:geckoappsdev@gmail.com?subject=Quiero%20mi%20c%C3%B3digo%20de%20tester%20de%20Opsira">geckoappsdev@gmail.com</a>.</p>
+
+  <footer>Opsira · <a href="privacidad.html">Política de privacidad</a></footer>
+</main>
+<script>
+  // Marca como hecho cada paso al tocar su botón (solo en este navegador), para saber en cuál vas.
+  document.querySelectorAll('li').forEach(function (li) {
+    var clave = 'opsira_' + li.id;
+    try { if (localStorage.getItem(clave)) li.classList.add('listo'); } catch (e) {}
+    li.querySelector('a').addEventListener('click', function () {
+      li.classList.add('listo');
+      try { localStorage.setItem(clave, '1'); } catch (e) {}
+    });
+  });
+</script>
+</body>
+</html>
