@@ -50,13 +50,15 @@
   .escena {
     position: relative; height: 470px; perspective: 1100px; touch-action: pan-y; cursor: grab; overflow: hidden;
   }
+  /* Espacio 3D real: el navegador ordena por profundidad y las tarjetas ya no se cruzan de golpe. */
+  .pista { position: absolute; inset: 0; transform-style: preserve-3d; }
   .escena:active { cursor: grabbing; }
   .tarjeta {
     position: absolute; left: 50%; top: 10px; width: 210px; margin-left: -105px;
     transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s, filter .7s;
     will-change: transform; -webkit-tap-highlight-color: transparent;
   }
-  .tarjeta img { width: 100%; display: block; pointer-events: none; filter: drop-shadow(0 22px 34px rgba(0,0,0,.6)); }
+  .tarjeta img { height: 430px; width: auto; margin: 0 auto; display: block; pointer-events: none; filter: drop-shadow(0 22px 34px rgba(0,0,0,.6)); }
   .escena.arrastrando .tarjeta { transition: none; }
   .leyenda { text-align: center; min-height: 64px; padding: 0 16px; }
   .leyenda strong { display: block; font-size: 1.2rem; }
@@ -230,15 +232,16 @@
     ['Texto con estilo', 'Más de 20 fuentes, bordes y sombra.'],
     ['Lista para cada red', 'Lona con fondo difuminado para Instagram, Reels y más.']
   ];
-  var escena = document.getElementById('escena'), puntos = document.getElementById('puntos');
+  var escena = document.getElementById('escena'), pista = document.createElement('div'), puntos = document.getElementById('puntos');
   var n = funciones.length, actual = 0, arrastre = 0, tarjetas = [];
+  pista.className = 'pista'; escena.appendChild(pista);
   var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   funciones.forEach(function (f, i) {
     var t = document.createElement('div');
     t.className = 'tarjeta';
     t.innerHTML = '<img src="testers/tel-' + (i + 1) + '.png" alt="' + f[0] + '" loading="' + (i < 3 ? 'eager' : 'lazy') + '">';
     t.addEventListener('click', function () { if (Math.abs(arrastre) < 6) ir(i); });
-    escena.appendChild(t); tarjetas.push(t);
+    pista.appendChild(t); tarjetas.push(t);
     var b = document.createElement('button');
     b.setAttribute('aria-label', f[0]);
     b.addEventListener('click', function () { ir(i); });
@@ -255,9 +258,10 @@
     extra = extra || 0;
     tarjetas.forEach(function (t, i) {
       var d = delta(i, extra), a = Math.abs(d);
-      t.style.transform = 'translateX(' + (d * 150) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (-d * 38) + 'deg)';
+      // Al salir del centro se encoge y se aleja lo suficiente para no cruzarse con su vecina (ni a medio camino).
+      var s = 1 - 0.3 * Math.min(a, 1), giro = Math.max(-45, Math.min(45, -d * 35));
+      t.style.transform = 'translateX(' + (d * 170) + 'px) translateZ(' + (-a * 150) + 'px) rotateY(' + giro + 'deg) scale(' + s + ')';
       t.style.opacity = a > 2.4 ? 0 : 1 - a * 0.22;
-      t.style.zIndex = 100 - Math.round(a * 10);
       t.style.filter = 'brightness(' + (1 - Math.min(a, 2) * 0.25) + ')';
     });
     var f = funciones[actual];
