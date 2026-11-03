@@ -7,7 +7,7 @@
 <meta name="description" content="Únete a la prueba de Opsira, un editor de fotos y video para Android.">
 <meta property="og:title" content="Prueba Opsira antes que nadie">
 <meta property="og:description" content="Un editor de fotos y video para Android. Únete a la prueba en tres pasos.">
-<meta property="og:image" content="https://br105.github.io/opsira-releases/testers-app.png">
+<meta property="og:image" content="https://br105.github.io/opsira-releases/testers/publicacion.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='30 28 48 52'%3E%3Cpath d='M54 28 L78 54 L54 80 L30 54 Z' fill='%23ff2a2a'/%3E%3C/svg%3E">
 <style>
   :root {
@@ -39,14 +39,45 @@
   h1 { font-size: clamp(2rem, 7vw, 2.7rem); line-height: 1.05; margin: 0 0 14px; }
   h1 span { display: block; background: var(--arcoiris); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .intro { color: var(--suave); margin: 0; }
-  .telefono {
-    width: 150px; border-radius: 22px; border: 5px solid #26232e; box-shadow: 0 20px 50px rgba(0,0,0,.6);
-    transform: rotate(4deg);
-  }
+  .telefono { width: 160px; transform: rotate(4deg); filter: drop-shadow(0 18px 30px rgba(0,0,0,.55)); }
   @media (max-width: 480px) {
     .heroe { grid-template-columns: 1fr; }
-    .telefono { width: 160px; justify-self: center; transform: rotate(-3deg); margin-top: 6px; }
+    .telefono { width: 170px; justify-self: center; transform: rotate(-3deg); margin-top: 6px; }
   }
+
+  /* Carrusel 3D: las tarjetas giran alrededor de la del centro; se mueve solo y también con el dedo. */
+  .carrusel { margin: 8px -16px 34px; user-select: none; -webkit-user-select: none; }
+  .escena {
+    position: relative; height: 470px; perspective: 1100px; touch-action: pan-y; cursor: grab; overflow: hidden;
+  }
+  .escena:active { cursor: grabbing; }
+  .tarjeta {
+    position: absolute; left: 50%; top: 10px; width: 210px; margin-left: -105px;
+    transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s, filter .7s;
+    will-change: transform; -webkit-tap-highlight-color: transparent;
+  }
+  .tarjeta img { width: 100%; display: block; pointer-events: none; filter: drop-shadow(0 22px 34px rgba(0,0,0,.6)); }
+  .escena.arrastrando .tarjeta { transition: none; }
+  .leyenda { text-align: center; min-height: 64px; padding: 0 16px; }
+  .leyenda strong { display: block; font-size: 1.2rem; }
+  .leyenda span { color: var(--suave); font-size: .95rem; }
+  .puntos { display: flex; justify-content: center; gap: 4px; margin-top: 6px; }
+  .puntos button {
+    width: 28px; height: 28px; border: 0; background: none; padding: 0; cursor: pointer; display: grid; place-items: center;
+  }
+  .puntos button::after { content: ""; width: 8px; height: 8px; border-radius: 99px; background: #4a4556; transition: .3s; }
+  .puntos button[aria-current="true"]::after { width: 22px; background: var(--acento); }
+  @media (prefers-reduced-motion: reduce) { .tarjeta { transition: none; } }
+
+  /* Aviso para quien abre la página desde Facebook o Instagram (su navegador no tiene la cuenta de Google). */
+  .aviso {
+    display: none; margin: 0 0 18px; padding: 14px 16px; border-radius: 16px; font-size: .92rem;
+    background: rgba(46, 139, 255, .12); border: 1px solid rgba(46, 139, 255, .45);
+  }
+  .aviso.visible { display: block; }
+  .aviso a { color: #fff; font-weight: 700; }
+  .regresa { grid-column: 2; margin: 10px 0 0; font-size: .85rem; color: #d9d4e4; }
+  .regresa b { color: #fff; }
 
   .etiquetas { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 30px; }
   .etiquetas span {
@@ -62,14 +93,14 @@
   }
   li:hover { border-color: rgba(255,255,255,.18); }
   .num {
-    grid-row: span 3; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
+    grid-row: span 4; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center;
     background: #221f2b; font-weight: 800;
   }
   li.listo .num { background: var(--hecho); color: #0b0a0e; }
   li h3 { font-size: 1.05rem; margin: 6px 0 0; }
   p.paso { margin: 0; color: var(--suave); font-size: .95rem; }
   a.boton {
-    justify-self: start; margin-top: 12px; padding: 12px 20px; border-radius: 999px; text-decoration: none;
+    grid-column: 2; justify-self: start; margin-top: 12px; padding: 12px 20px; border-radius: 999px; text-decoration: none;
     background: var(--acento); color: #fff; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center;
     box-shadow: 0 6px 18px rgba(255, 42, 42, .3);
   }
@@ -127,24 +158,38 @@
         Play Store, Google necesita confirmar que personas reales ya lo usaron: los testers. Unirte toma un par de
         minutos.</p>
     </div>
-    <img class="telefono" src="testers-app.png" alt="Opsira comparando antes y después de un filtro en la foto de un insecto">
+    <img class="telefono" src="testers/tel-1.png" alt="Opsira comparando antes y después de un filtro en la foto de un insecto">
   </div>
 
   <div class="etiquetas"><span>Gratis</span><span>Sin suscripciones</span><span>Sin marca de agua</span><span>Solo Android</span></div>
 
+  <h2 class="seccion">Lo que puedes hacer</h2>
+  <div class="carrusel" aria-roledescription="carrusel" aria-label="Funciones de Opsira">
+    <div class="escena" id="escena"></div>
+    <div class="leyenda" aria-live="polite"><strong id="tituloF"></strong><span id="detalleF"></span></div>
+    <div class="puntos" id="puntos"></div>
+  </div>
+
   <h2 class="seccion">Cómo unirte</h2>
+  <div class="aviso" id="aviso">
+    Estás viendo esto dentro de Facebook o Instagram. Ahí no está abierta tu cuenta de Google, así que los pasos
+    pueden pedirte iniciar sesión. Es más fácil si tocas <b>⋮</b> (arriba a la derecha) y eliges
+    <b>Abrir en el navegador</b><span id="enChrome">, o <a href="#">ábrela en Chrome</a></span>.
+  </div>
   <ol>
     <li id="p1">
       <span class="num">1</span>
       <h3>Únete al grupo</h3>
       <p class="paso">Es un grupo de Google: toca "Unirse al grupo". No recibirás correos.</p>
       <a class="boton" href="https://groups.google.com/g/opsira-testers">Unirme al grupo</a>
+      <p class="regresa">Cuando te hayas unido, toca <b>Atrás</b> para volver aquí y seguir con el paso 2.</p>
     </li>
     <li id="p2">
       <span class="num">2</span>
       <h3>Acepta ser tester</h3>
       <p class="paso">Con la misma cuenta de Google, toca "Convertirse en verificador".</p>
       <a class="boton" href="https://play.google.com/apps/testing/com.geckoapps.opsira">Aceptar la prueba</a>
+      <p class="regresa">Cuando diga que ya eres verificador, toca <b>Atrás</b> para volver aquí.</p>
     </li>
     <li id="p3">
       <span class="num">3</span>
@@ -176,6 +221,95 @@
   <footer>Opsira · Gecko-Apps · <a href="privacidad.html">Política de privacidad</a></footer>
 </main>
 <script>
+  // ---------- Carrusel 3D de funciones ----------
+  var funciones = [
+    ['Filtros que se notan', 'Compara antes y después de un toque.'],
+    ['Quita el fondo con IA', 'Sin subir tus fotos a internet.'],
+    ['Más de 60 efectos', 'Glitch, VHS, luz, clima y más; en video se mueven.'],
+    ['Collage en segundos', 'Cuadrícula, estilo libre y carrusel.'],
+    ['Texto con estilo', 'Más de 20 fuentes, bordes y sombra.'],
+    ['Lista para cada red', 'Lona con fondo difuminado para Instagram, Reels y más.']
+  ];
+  var escena = document.getElementById('escena'), puntos = document.getElementById('puntos');
+  var n = funciones.length, actual = 0, arrastre = 0, tarjetas = [];
+  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  funciones.forEach(function (f, i) {
+    var t = document.createElement('div');
+    t.className = 'tarjeta';
+    t.innerHTML = '<img src="testers/tel-' + (i + 1) + '.png" alt="' + f[0] + '" loading="' + (i < 3 ? 'eager' : 'lazy') + '">';
+    t.addEventListener('click', function () { if (Math.abs(arrastre) < 6) ir(i); });
+    escena.appendChild(t); tarjetas.push(t);
+    var b = document.createElement('button');
+    b.setAttribute('aria-label', f[0]);
+    b.addEventListener('click', function () { ir(i); });
+    puntos.appendChild(b);
+  });
+  // Distancia de cada tarjeta a la actual, por el camino corto (es un círculo: después de la última viene la primera).
+  function delta(i, extra) {
+    var d = i - actual - extra;
+    while (d > n / 2) d -= n;
+    while (d < -n / 2) d += n;
+    return d;
+  }
+  function pintar(extra) {
+    extra = extra || 0;
+    tarjetas.forEach(function (t, i) {
+      var d = delta(i, extra), a = Math.abs(d);
+      t.style.transform = 'translateX(' + (d * 150) + 'px) translateZ(' + (-a * 170) + 'px) rotateY(' + (-d * 38) + 'deg)';
+      t.style.opacity = a > 2.4 ? 0 : 1 - a * 0.22;
+      t.style.zIndex = 100 - Math.round(a * 10);
+      t.style.filter = 'brightness(' + (1 - Math.min(a, 2) * 0.25) + ')';
+    });
+    var f = funciones[actual];
+    document.getElementById('tituloF').textContent = f[0];
+    document.getElementById('detalleF').textContent = f[1];
+    puntos.querySelectorAll('button').forEach(function (b, i) { b.setAttribute('aria-current', i === actual); });
+  }
+  function ir(i) { actual = (i + n) % n; pintar(); reiniciar(); }
+  var reloj;
+  function reiniciar() {
+    clearInterval(reloj);
+    if (!quieto) reloj = setInterval(function () { if (!document.hidden) ir(actual + 1); }, 3200);
+  }
+  // Arrastrar con el dedo o el mouse: las tarjetas siguen al dedo y al soltar se queda la más cercana.
+  var x0 = null;
+  escena.addEventListener('pointerdown', function (e) {
+    x0 = e.clientX; arrastre = 0; escena.classList.add('arrastrando'); clearInterval(reloj);
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (x0 === null) return;
+    arrastre = e.clientX - x0;
+    pintar(-arrastre / 150);
+  });
+  window.addEventListener('pointerup', function () {
+    if (x0 === null) return;
+    escena.classList.remove('arrastrando');
+    var pasos = Math.round(-arrastre / 150);
+    x0 = null;
+    ir(actual + pasos);
+    setTimeout(function () { arrastre = 0; }, 0);
+  });
+  escena.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') ir(actual + 1);
+    if (e.key === 'ArrowLeft') ir(actual - 1);
+  });
+  escena.tabIndex = 0;
+  pintar(); reiniciar();
+
+  // ---------- Aviso dentro de Facebook o Instagram ----------
+  var ua = navigator.userAgent || '';
+  if (/FBAN|FBAV|FB_IAB|Instagram/i.test(ua)) {
+    document.getElementById('aviso').classList.add('visible');
+    // En Android se puede pedir que la abra Chrome directamente.
+    var enChrome = document.querySelector('#enChrome a');
+    if (/Android/i.test(ua)) {
+      enChrome.href = 'intent://' + location.host + location.pathname + '#Intent;scheme=https;package=com.android.chrome;end';
+    } else {
+      document.getElementById('enChrome').remove();
+    }
+  }
+
+  // ---------- Pasos ----------
   // Marca como hecho cada paso al tocar su botón (solo en este navegador), para saber en cuál vas.
   document.querySelectorAll('ol > li').forEach(function (li) {
     var clave = 'opsira_' + li.id;
