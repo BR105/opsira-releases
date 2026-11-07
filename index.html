@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opsira — Editor de foto y video para Android</title>
+<meta name="description" content="Edita fotos y videos gratis en tu Android: filtros, inteligencia artificial en el propio teléfono, texto, video y collage. Sin marca de agua y sin suscripciones.">
+<link rel="icon" type="image/png" href="assets/opsira-icono.png">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="canonical" href="https://br105.github.io/opsira-releases/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Opsira">
+<meta property="og:title" content="Opsira — Editor de foto y video para Android">
+<meta property="og:description" content="Filtros, IA en tu propio teléfono, video y collage. Sin marca de agua y sin suscripciones.">
+<meta property="og:url" content="https://br105.github.io/opsira-releases/">
+<style>
+:root{
+  /* Mismo sistema que Zynora, Vocyra y Gecko Apps; el acento es el rojo de Opsira */
+  --bg:#0a0a0c; --bg-2:#0e0e12; --surface:#141419; --surface-2:#1a1a21;
+  --hairline:rgba(255,255,255,.08); --hairline-2:rgba(255,255,255,.05);
+  --text:#ececf1; --text-dim:#9c9ca8; --text-muted:#8b8b9c;
+  --accent:#ff2a2a; --accent-soft:rgba(255,42,42,.14); --accent-line:rgba(255,42,42,.35);
+  --cyan:#4dd4ff; --ok:#3ddc97;
+  --glass:rgba(255,255,255,.07); --glass-brd:rgba(255,255,255,.20);
+  --glass-hi:inset 0 1px 0 rgba(255,255,255,.18);
+  --glass-sh:0 16px 44px -22px rgba(0,0,0,.55); --glass-blur:blur(18px) saturate(1.3);
+  --r-card:14px; --r-ctrl:9px; --r-tel:26px;
+  --maxw:1140px;
+  --font:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-color:var(--surface-2) var(--bg-2);scrollbar-width:thin}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:rgba(255,42,42,.38);color:#fff}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,42,42,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,42,42,.035) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
+  mask-image:radial-gradient(115% 70% at 50% -8%,#000,transparent 72%);
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+p{margin:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.eyebrow.cy{color:var(--cyan)}
+section{position:relative;z-index:1}
+.section{padding:84px 0}
+.section-head{max-width:660px;margin:0 auto 54px;text-align:center}
+.section-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:14px}
+.section-head p{color:var(--text-dim);font-size:17px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;
+  padding:13px 22px;border-radius:var(--r-ctrl);border:1px solid transparent;cursor:pointer;
+  transition:transform .2s var(--ease),background .2s ease,border-color .2s ease,box-shadow .25s ease,color .2s ease;
+}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 30px -8px rgba(255,42,42,.6)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(255,42,42,.75)}
+.btn-ghost{background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);border-color:var(--glass-brd);color:var(--text);box-shadow:var(--glass-hi)}
+.btn-ghost:hover{background:rgba(255,255,255,.13);border-color:var(--accent-line);transform:translateY(-2px)}
+
+header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--hairline-2)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+.lockup{display:inline-flex;align-items:center;gap:10px;line-height:1;font-size:21px;font-weight:800;letter-spacing:-.04em}
+.lockup img{width:28px;height:28px;border-radius:8px}
+.nav-links{display:flex;gap:28px;align-items:center;font-size:14.5px;color:var(--text-dim)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav .btn{padding:9px 18px;font-size:14px}
+.nav-links a.btn-primary{color:#fff}
+@media (max-width:860px){ .nav-links a:not(.btn){display:none} }
+
+/* ---- Hero ---- */
+.hero{position:relative;padding:84px 0 0;text-align:center;overflow:hidden}
+.hero-glow{
+  position:absolute;top:-180px;left:50%;transform:translateX(-50%);width:900px;height:600px;max-width:100%;
+  pointer-events:none;z-index:0;filter:blur(20px);animation:breathe 9s ease-in-out infinite;
+  background:radial-gradient(closest-side,rgba(255,42,42,.20),rgba(255,42,42,.04) 55%,transparent 72%);
+}
+@keyframes breathe{0%,100%{opacity:.75;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
+.hero .wrap{position:relative;z-index:1}
+.hero-ico{width:clamp(76px,10vw,100px);height:auto;margin:0 auto 24px;border-radius:24px;filter:drop-shadow(0 12px 36px rgba(255,42,42,.35))}
+.hero h1{font-size:clamp(30px,5vw,50px);letter-spacing:-.03em;max-width:17ch;margin:0 auto 20px}
+.hero h1 .grad{background:linear-gradient(100deg,#ff8a8a,#ff2a2a 55%,#ff7a3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(16px,2.2vw,20px);color:var(--text-dim);max-width:54ch;margin:0 auto 32px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--text-dim);
+  background:var(--glass);-webkit-backdrop-filter:blur(10px) saturate(1.2);backdrop-filter:blur(10px) saturate(1.2);
+  border:1px solid var(--glass-brd);box-shadow:var(--glass-hi);padding:7px 14px;border-radius:100px;
+}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+
+/* fila de teléfonos del hero */
+.telefonos{display:flex;justify-content:center;align-items:flex-end;gap:18px;margin-top:54px;padding-bottom:10px}
+.tel{
+  width:clamp(130px,17vw,208px);border-radius:var(--r-tel);overflow:hidden;
+  border:1px solid var(--glass-brd);box-shadow:0 30px 70px -30px rgba(0,0,0,.9),var(--glass-hi);
+  transition:transform .4s var(--ease);
+}
+.tel img{width:100%;height:auto}
+.tel.alto{width:clamp(160px,21vw,250px)}
+.telefonos:hover .tel{transform:translateY(-6px)}
+@media (max-width:760px){ .telefonos .tel:nth-child(1),.telefonos .tel:nth-child(4){display:none} }
+
+/* ---- Showcase ---- */
+.showcase{display:flex;align-items:center;padding:72px 0;overflow:hidden}
+.showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
+.showcase.rev .vista{order:2}
+.vista{display:flex;justify-content:center}
+.vista .tel{width:min(290px,80%)}
+.showcase .copy .step{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.showcase .copy h2{font-size:clamp(30px,4.4vw,44px);margin-bottom:18px;max-width:15ch}
+.showcase .copy p{color:var(--text-dim);font-size:clamp(16px,2vw,19px);max-width:46ch}
+.lista{margin-top:22px;display:grid;gap:10px;max-width:46ch}
+.lista li{list-style:none;display:flex;gap:11px;align-items:flex-start;color:var(--text-dim);font-size:15.5px}
+.lista li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none;margin-top:9px}
+@media (max-width:980px){ .showcase .wrap{grid-template-columns:1fr;gap:38px} .showcase.rev .vista{order:0} }
+
+/* ---- Tarjetas ---- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);padding:26px;
+  box-shadow:var(--glass-hi),var(--glass-sh);transition:transform .25s var(--ease),border-color .25s;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--accent-line)}
+.card .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;margin-bottom:16px;background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent)}
+.card .ico svg{width:19px;height:19px}
+.card h3{font-size:17px;margin-bottom:9px}
+.card p{font-size:14.5px;color:var(--text-dim)}
+@media (max-width:860px){ .cards{grid-template-columns:1fr} }
+
+/* ---- Privacidad destacada ---- */
+.privacidad{
+  background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-brd);border-radius:var(--r-card);box-shadow:var(--glass-hi),var(--glass-sh);
+  padding:40px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;
+}
+.privacidad .escudo{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(61,220,151,.12);border:1px solid rgba(61,220,151,.35);color:var(--ok);flex:none}
+.privacidad .escudo svg{width:26px;height:26px}
+.privacidad h2{font-size:clamp(22px,3vw,30px);margin-bottom:12px}
+.privacidad p{color:var(--text-dim);font-size:16px;max-width:62ch}
+.modelos{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.modelos span{font-size:12.5px;color:var(--text-muted);background:rgba(255,255,255,.05);border:1px solid var(--hairline);border-radius:100px;padding:6px 13px}
+@media (max-width:760px){ .privacidad{grid-template-columns:1fr;padding:28px} }
+
+/* ---- CTA ---- */
+.cta{padding:92px 0;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1000px;height:520px;max-width:120%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,42,42,.18),transparent 72%);filter:blur(18px)}
+.cta .wrap{position:relative;z-index:1}
+.cta h2{font-size:clamp(28px,4.6vw,46px);max-width:20ch;margin:0 auto 18px}
+.cta p{color:var(--text-dim);font-size:17px;max-width:54ch;margin:0 auto 30px}
+
+/* ---- Pie ---- */
+footer{border-top:1px solid var(--hairline-2);background:var(--bg-2);padding:52px 0 36px;position:relative;z-index:1}
+.foot{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.foot-brand{max-width:320px}
+.foot-brand .lockup{font-size:20px;margin-bottom:14px}
+.foot-brand p{color:var(--text-muted);font-size:13.5px;line-height:1.6}
+.foot-credit{display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--text-dim);font-size:13px;font-weight:600;padding:4px 12px 4px 4px;border-radius:100px;border:1px solid transparent;transition:color .2s,background .2s,border-color .2s}
+.foot-credit:hover{color:var(--text);background:var(--glass);border-color:var(--glass-brd)}
+.foot-credit img{width:30px;height:30px;border-radius:50%;flex:none;border:1px solid var(--hairline);object-fit:cover}
+.foot-made{margin-top:12px;color:var(--text-muted);font-size:12px;line-height:1.5}
+.foot-made b{color:var(--text-dim);font-weight:600}
+.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+.foot-col h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin:0 0 14px}
+.foot-col a{display:block;color:var(--text-dim);font-size:14.5px;margin-bottom:10px;transition:color .2s}
+.foot-col a:hover{color:var(--text)}
+.kofi{color:var(--accent) !important;font-weight:600}
+.gkmark{width:22px;height:22px;background:#35d07f;display:inline-block;vertical-align:-5px;margin-right:8px;
+  -webkit-mask:url(assets/gecko.png) center/contain no-repeat;mask:url(assets/gecko.png) center/contain no-repeat}
+.foot-bottom{margin-top:44px;padding-top:24px;border-top:1px solid var(--hairline-2);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--text-muted);font-size:13px}
+.foot-bottom a{color:var(--text-muted)}
+.foot-bottom a:hover{color:var(--text-dim)}
+
+.reveal,.slide-l,.slide-r{opacity:0;transition:opacity .8s ease,transform .8s var(--ease)}
+.reveal{transform:translateY(26px)}
+.slide-l{transform:translateX(-60px)}
+.slide-r{transform:translateX(60px)}
+.reveal.in,.slide-l.in,.slide-r.in{opacity:1;transform:none}
+html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  .reveal,.slide-l,.slide-r{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="lockup" href="#top"><img src="assets/opsira-icono.png" alt="">Opsira</a>
+    <nav class="nav-links">
+      <a href="#fotos">Fotos</a>
+      <a href="#ia">Inteligencia artificial</a>
+      <a href="#video">Video</a>
+      <a class="btn btn-primary" href="testers.html">Probarla</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <img class="hero-ico" src="assets/opsira-icono.png" alt="" width="160" height="160">
+    <h1>Edita fotos y videos <span class="grad">sin marca de agua</span></h1>
+    <p class="hero-sub">Filtros, inteligencia artificial que corre en tu propio teléfono, video y collage. Gratis, sin suscripciones y sin pagos dentro de la app.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="testers.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        Probarla antes que nadie
+      </a>
+      <a class="btn btn-ghost" href="#fotos">Ver qué hace</a>
+    </div>
+    <div class="badges">
+      <span class="badge"><span class="dot"></span>Android</span>
+      <span class="badge">Gratis</span>
+      <span class="badge">Sin marca de agua</span>
+      <span class="badge">Sin suscripciones</span>
+    </div>
+    <div class="telefonos reveal">
+      <div class="tel"><img src="assets/4-collage.png" alt="Collage en Opsira" loading="lazy" width="540" height="960"></div>
+      <div class="tel alto"><img src="assets/1-filtros.png" alt="Filtros en Opsira" width="540" height="960"></div>
+      <div class="tel alto"><img src="assets/2-quitar-fondo.png" alt="Quitar fondo en Opsira" width="540" height="960"></div>
+      <div class="tel"><img src="assets/5-texto.png" alt="Texto en Opsira" loading="lazy" width="540" height="960"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOTOS -->
+<section class="showcase" id="fotos">
+  <div class="wrap">
+    <div class="vista slide-l"><div class="tel"><img src="assets/1-filtros.png" alt="Pantalla de filtros de Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="copy slide-r">
+      <div class="step">Fotos</div>
+      <h2>Filtros que puedes hacer tuyos</h2>
+      <p>Packs de filtros con intensidad ajustable: Carmín, Bitono, Cine, Retro, blanco y negro y Natural. Puedes crear los tuyos o copiar el estilo de otra foto.</p>
+      <ul class="lista">
+        <li>Luz y color: brillo, contraste, sombras, calidez, tinte, HSL, curvas, viñeta y grano.</li>
+        <li>Zona: ajusta la luz o el color solo en una parte, y realza el cielo con un toque.</li>
+        <li>Marcos decorativos: Polaroid, película, cinta, papel rasgado y postal.</li>
+        <li>Aplica la misma edición a varias fotos a la vez.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- IA -->
+<section class="showcase rev" id="ia">
+  <div class="wrap">
+    <div class="vista slide-r"><div class="tel"><img src="assets/2-quitar-fondo.png" alt="Quitar el fondo de una foto en Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="copy slide-l">
+      <div class="step">Inteligencia artificial</div>
+      <h2>En tu teléfono, no en un servidor</h2>
+      <p>Las herramientas de IA corren dentro del aparato. Tus fotos y videos no se suben a ningún lado, ni siquiera mientras se procesan.</p>
+      <ul class="lista">
+        <li>Quitar fondo: deja solo a la persona o el objeto.</li>
+        <li>Eliminar objetos: borra lo que sobra de la foto.</li>
+        <li>Mejorar HD: sube la resolución y la nitidez.</li>
+        <li>Retrato: desenfoca el fondo como una cámara profesional.</li>
+        <li>Subtítulos automáticos para tus videos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="showcase" id="video">
+  <div class="wrap">
+    <div class="vista slide-l"><div class="tel"><img src="assets/3-efectos.png" alt="Efectos de video en Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="copy slide-r">
+      <div class="step">Video</div>
+      <h2>Una línea de tiempo que no estorba</h2>
+      <p>Recorta, divide, duplica y reordena clips. Velocidad normal o con curvas, para cámara lenta y rápida dentro del mismo clip, congelar e invertir.</p>
+      <ul class="lista">
+        <li>Lienzo 9:16 para Reels, TikTok y Shorts, con fondo desenfocado.</li>
+        <li>Transiciones, texto y stickers con duración, música, voz en off y efectos de sonido.</li>
+        <li>Corta al ritmo de tu música y subtítulos palabra por palabra.</li>
+        <li>Exporta en MP4 hasta 4K o como GIF.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COLLAGE Y LIENZO -->
+<section class="section" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow cy">Collage y lienzo</span>
+      <h2>Para que quepa como tú quieres</h2>
+      <p>Cuadrículas, unión de capturas y lienzos con la medida exacta de cada red.</p>
+    </div>
+    <div class="telefonos reveal">
+      <div class="tel alto"><img src="assets/4-collage.png" alt="Collage en Opsira" loading="lazy" width="540" height="960"></div>
+      <div class="tel alto"><img src="assets/5-texto.png" alt="Texto sobre una foto en Opsira" loading="lazy" width="540" height="960"></div>
+      <div class="tel alto"><img src="assets/6-lona.png" alt="Lienzo para redes en Opsira" loading="lazy" width="540" height="960"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIVACIDAD -->
+<section class="section" style="padding-top:34px">
+  <div class="wrap reveal">
+    <div class="privacidad">
+      <span class="escudo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg></span>
+      <div>
+        <h2>Tus fotos no salen del teléfono</h2>
+        <p>Los tres modelos de inteligencia artificial se descargan una sola vez, la primera que usas cada herramienta, y a partir de ahí todo el procesamiento ocurre dentro del aparato. No hay servidor de por medio: ni para quitar un fondo, ni para borrar un objeto, ni para los subtítulos.</p>
+        <div class="modelos">
+          <span>MI-GAN · eliminar objetos · MIT</span>
+          <span>Whisper · subtítulos · MIT</span>
+          <span>Real-ESRGAN · mejorar HD · BSD-3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIN SORPRESAS -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Sin sorpresas</span>
+      <h2>Cómo se paga esto</h2>
+      <p>Opsira es gratis de verdad. Se sostiene con anuncios, y queremos que sepas exactamente cómo.</p>
+    </div>
+    <div class="cards reveal">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+        <h3>Nada marcado con agua</h3>
+        <p>Lo que exportas sale limpio, sin logos encima, en la resolución que elegiste.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Un anuncio, doce horas</h3>
+        <p>Las herramientas especiales se desbloquean viendo un anuncio corto y quedan libres medio día.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div>
+        <h3>Sin suscripciones</h3>
+        <p>No hay versión de paga ni compras dentro de la app. Tus proyectos se guardan solos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Todavía no está en Google Play</h2>
+    <p>Para publicarla, Google pide que personas reales la hayan usado antes. Entrar como tester toma un par de minutos y te da la app completa, gratis.</p>
+    <div class="hero-cta" style="margin-bottom:24px">
+      <a class="btn btn-primary" href="testers.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        Entrar como tester
+      </a>
+      <a class="btn btn-ghost" href="mailto:geckoappsdev@gmail.com">Escribir al correo</a>
+    </div>
+    <div class="badges">
+      <span class="badge">Android 8 o más</span>
+      <span class="badge">Toma un par de minutos</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="foot-brand">
+        <span class="lockup"><img src="assets/opsira-icono.png" alt="">Opsira</span>
+        <p>Editor de foto y video para Android. Una app de Gecko Apps, estudio independiente: no está afiliado ni asociado a ninguna marca.</p>
+        <a class="foot-credit" href="https://www.youtube.com/@Azmo105" target="_blank" rel="noopener">
+          <img src="assets/azmo105.png" alt="AZMO105" width="30" height="30" loading="lazy">
+          Hecho por AZMO105
+        </a>
+        <p class="foot-made"><b>Idea y dirección de AZMO105</b> · desarrollado con Claude (Anthropic).</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>La app</h4>
+          <a href="#fotos">Fotos</a>
+          <a href="#ia">Inteligencia artificial</a>
+          <a href="#video">Video</a>
+          <a href="testers.html">Probarla como tester</a>
+        </div>
+        <div class="foot-col">
+          <h4>Legal</h4>
+          <a href="privacidad.html">Política de privacidad</a>
+          <a href="terminos.html">Condiciones del servicio</a>
+          <a href="LICENCIAS-MODELOS.md">Licencias de los modelos</a>
+        </div>
+        <div class="foot-col">
+          <h4>Gecko Apps</h4>
+          <a href="https://br105.github.io/"><span class="gkmark" aria-hidden="true"></span>Todas las apps</a>
+          <a class="kofi" href="https://ko-fi.com/azmo105" target="_blank" rel="noopener">Apóyanos con un café</a>
+          <a href="mailto:geckoappsdev@gmail.com">geckoappsdev@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Gecko Apps. Estudio independiente. No afiliado ni asociado a ninguna marca.</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Condiciones</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.remove('no-js');
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.observe(el)});
+</script>
+</body>
+</html>
