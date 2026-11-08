@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" class="no-js">
 <head>
 <meta charset="UTF-8">
@@ -98,14 +98,29 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-f
 }
 .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
 
-/* fila de teléfonos del hero */
+/* Carrusel 3D: las tarjetas giran alrededor de la del centro; se mueve solo y también con el dedo.
+   Mismo patrón que la página de testers. */
+.carrusel{margin:46px 0 0;user-select:none;-webkit-user-select:none}
+.escena{position:relative;height:470px;perspective:1100px;touch-action:pan-y;cursor:grab;overflow:hidden}
+.escena:active{cursor:grabbing}
+.pista{position:absolute;inset:0;transform-style:preserve-3d}
+.tarjeta{position:absolute;left:50%;top:10px;width:210px;margin-left:-105px;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s,filter .7s;will-change:transform;-webkit-tap-highlight-color:transparent}
+.tarjeta img{height:430px;width:auto;margin:0 auto;display:block;pointer-events:none;filter:drop-shadow(0 22px 34px rgba(0,0,0,.6))}
+.escena.arrastrando .tarjeta{transition:none}
+.leyenda{text-align:center;min-height:62px;padding:0 16px;margin-top:8px}
+.leyenda strong{display:block;font-size:19px}
+.leyenda span{color:var(--text-dim);font-size:15px}
+.puntos{display:flex;justify-content:center;gap:4px;margin-top:2px}
+.puntos button{width:28px;height:28px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
+.puntos button::after{content:"";width:8px;height:8px;border-radius:99px;background:#4a4556;transition:.3s}
+.puntos button[aria-current="true"]::after{width:22px;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){ .tarjeta{transition:none} }
+
+/* fila de teléfonos (secciones) */
 .telefonos{display:flex;justify-content:center;align-items:flex-end;gap:18px;margin-top:54px;padding-bottom:10px}
-.tel{
-  width:clamp(130px,17vw,208px);border-radius:var(--r-tel);overflow:hidden;
-  border:1px solid var(--glass-brd);box-shadow:0 30px 70px -30px rgba(0,0,0,.9),var(--glass-hi);
-  transition:transform .4s var(--ease);
-}
-.tel img{width:100%;height:auto}
+/* Los mockups ya traen el teléfono dibujado y fondo transparente: no llevan marco. */
+.tel{ width:clamp(130px,17vw,208px); transition:transform .4s var(--ease); }
+.tel img{width:100%;height:auto;filter:drop-shadow(0 24px 44px rgba(0,0,0,.75))}
 .tel.alto{width:clamp(160px,21vw,250px)}
 .telefonos:hover .tel{transform:translateY(-6px)}
 @media (max-width:760px){ .telefonos .tel:nth-child(1),.telefonos .tel:nth-child(4){display:none} }
@@ -226,11 +241,10 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
       <span class="badge">Sin marca de agua</span>
       <span class="badge">Sin suscripciones</span>
     </div>
-    <div class="telefonos reveal">
-      <div class="tel"><img src="assets/4-collage.png" alt="Collage en Opsira" loading="lazy" width="540" height="960"></div>
-      <div class="tel alto"><img src="assets/1-filtros.png" alt="Filtros en Opsira" width="540" height="960"></div>
-      <div class="tel alto"><img src="assets/2-quitar-fondo.png" alt="Quitar fondo en Opsira" width="540" height="960"></div>
-      <div class="tel"><img src="assets/5-texto.png" alt="Texto en Opsira" loading="lazy" width="540" height="960"></div>
+    <div class="carrusel" aria-roledescription="carrusel" aria-label="Pantallas de Opsira">
+      <div class="escena" id="escena"></div>
+      <div class="leyenda"><strong id="tituloF"></strong><span id="detalleF"></span></div>
+      <div class="puntos" id="puntos"></div>
     </div>
   </div>
 </section>
@@ -238,7 +252,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 <!-- FOTOS -->
 <section class="showcase" id="fotos">
   <div class="wrap">
-    <div class="vista slide-l"><div class="tel"><img src="assets/1-filtros.png" alt="Pantalla de filtros de Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="vista slide-l"><div class="tel"><img src="testers/tel-1.png" alt="Pantalla de filtros de Opsira" loading="lazy" width="400" height="845"></div></div>
     <div class="copy slide-r">
       <div class="step">Fotos</div>
       <h2>Filtros que puedes hacer tuyos</h2>
@@ -256,7 +270,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 <!-- IA -->
 <section class="showcase rev" id="ia">
   <div class="wrap">
-    <div class="vista slide-r"><div class="tel"><img src="assets/2-quitar-fondo.png" alt="Quitar el fondo de una foto en Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="vista slide-r"><div class="tel"><img src="testers/tel-2.png" alt="Quitar el fondo de una foto en Opsira" loading="lazy" width="400" height="845"></div></div>
     <div class="copy slide-l">
       <div class="step">Inteligencia artificial</div>
       <h2>En tu teléfono, no en un servidor</h2>
@@ -275,7 +289,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 <!-- VIDEO -->
 <section class="showcase" id="video">
   <div class="wrap">
-    <div class="vista slide-l"><div class="tel"><img src="assets/3-efectos.png" alt="Efectos de video en Opsira" loading="lazy" width="540" height="960"></div></div>
+    <div class="vista slide-l"><div class="tel"><img src="testers/tel-3.png" alt="Efectos de video en Opsira" loading="lazy" width="400" height="845"></div></div>
     <div class="copy slide-r">
       <div class="step">Video</div>
       <h2>Una línea de tiempo que no estorba</h2>
@@ -299,9 +313,9 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
       <p>Cuadrículas, unión de capturas y lienzos con la medida exacta de cada red.</p>
     </div>
     <div class="telefonos reveal">
-      <div class="tel alto"><img src="assets/4-collage.png" alt="Collage en Opsira" loading="lazy" width="540" height="960"></div>
-      <div class="tel alto"><img src="assets/5-texto.png" alt="Texto sobre una foto en Opsira" loading="lazy" width="540" height="960"></div>
-      <div class="tel alto"><img src="assets/6-lona.png" alt="Lienzo para redes en Opsira" loading="lazy" width="540" height="960"></div>
+      <div class="tel alto"><img src="testers/tel-4.png" alt="Collage en Opsira" loading="lazy" width="400" height="845"></div>
+      <div class="tel alto"><img src="testers/tel-5.png" alt="Texto sobre una foto en Opsira" loading="lazy" width="400" height="845"></div>
+      <div class="tel alto"><img src="testers/tel-6.png" alt="Lienzo para redes en Opsira" loading="lazy" width="400" height="845"></div>
     </div>
   </div>
 </section>
@@ -416,6 +430,67 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 document.documentElement.classList.remove('no-js');
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{rootMargin:'0px 0px -12% 0px'});
 document.querySelectorAll('.reveal,.slide-l,.slide-r').forEach(function(el){io.observe(el)});
+
+// ---------- Carrusel 3D de funciones ----------
+var funciones = [
+  ['Filtros que se notan', 'Compara antes y después de un toque.'],
+  ['Quita el fondo con IA', 'Sin subir tus fotos a internet.'],
+  ['Más de 60 efectos', 'Glitch, VHS, luz, clima y más; en video se mueven.'],
+  ['Collage en segundos', 'Cuadrícula, estilo libre y carrusel.'],
+  ['Texto con estilo', 'Más de 20 fuentes, bordes y sombra.'],
+  ['Lista para cada red', 'Lona con fondo difuminado para Instagram, Reels y más.']
+];
+var escena = document.getElementById('escena'), pista = document.createElement('div'), puntos = document.getElementById('puntos');
+var n = funciones.length, actual = 0, arrastre = 0, tarjetas = [];
+pista.className = 'pista'; escena.appendChild(pista);
+var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+funciones.forEach(function (f, i) {
+  var t = document.createElement('div');
+  t.className = 'tarjeta';
+  t.innerHTML = '<img src="testers/tel-' + (i + 1) + '.png" alt="' + f[0] + '" loading="' + (i < 3 ? 'eager' : 'lazy') + '">';
+  t.addEventListener('click', function () { if (Math.abs(arrastre) < 6) ir(i); });
+  pista.appendChild(t); tarjetas.push(t);
+  var b = document.createElement('button');
+  b.setAttribute('aria-label', f[0]);
+  b.addEventListener('click', function () { ir(i); });
+  puntos.appendChild(b);
+});
+// Distancia de cada tarjeta a la actual, por el camino corto (es un círculo).
+function delta(i, extra) {
+  var d = i - actual - extra;
+  while (d > n / 2) d -= n;
+  while (d < -n / 2) d += n;
+  return d;
+}
+function pintar(extra) {
+  extra = extra || 0;
+  tarjetas.forEach(function (t, i) {
+    var d = delta(i, extra), a = Math.abs(d);
+    var s = 1 - 0.3 * Math.min(a, 1), giro = Math.max(-45, Math.min(45, -d * 35));
+    t.style.transform = 'translateX(' + (d * 170) + 'px) translateZ(' + (-a * 150) + 'px) rotateY(' + giro + 'deg) scale(' + s + ')';
+    t.style.opacity = a > 2.4 ? 0 : 1 - a * 0.22;
+    t.style.filter = 'brightness(' + (1 - Math.min(a, 2) * 0.25) + ')';
+  });
+  var f = funciones[actual];
+  document.getElementById('tituloF').textContent = f[0];
+  document.getElementById('detalleF').textContent = f[1];
+  puntos.querySelectorAll('button').forEach(function (b, i) { b.setAttribute('aria-current', i === actual); });
+}
+function ir(i) { actual = (i + n) % n; pintar(); reiniciar(); }
+var reloj;
+function reiniciar() {
+  clearInterval(reloj);
+  if (!quieto) reloj = setInterval(function () { if (!document.hidden) ir(actual + 1); }, 3200);
+}
+var x0 = null;
+escena.addEventListener('pointerdown', function (e) { x0 = e.clientX; arrastre = 0; escena.classList.add('arrastrando'); clearInterval(reloj); });
+window.addEventListener('pointermove', function (e) { if (x0 === null) return; arrastre = e.clientX - x0; pintar(-arrastre / 170); });
+window.addEventListener('pointerup', function () {
+  if (x0 === null) return;
+  escena.classList.remove('arrastrando');
+  ir(actual + Math.round(-arrastre / 170)); x0 = null; arrastre = 0;
+});
+pintar(); reiniciar();
 </script>
 </body>
 </html>
