@@ -16,12 +16,12 @@
 
 <p>Opsira es un editor de fotos y videos gratuito para Android. No tiene cuentas de usuario:
 tus fotos, videos y proyectos se procesan y se guardan <strong>en tu teléfono</strong>. La única excepción es
-“Borrar con IA en la nube”, solo si tú la activas (ver abajo).</p>
+el “Borrado mejorado”, solo si tú lo eliges (ver abajo).</p>
 
 <h2>Lo que la app no hace</h2>
 <ul>
-  <li>No sube tus videos, audio ni proyectos a ningún servidor, ni tus fotos salvo con “Borrar con IA en la nube”
-    si la activas.</li>
+  <li>No sube tus videos, audio ni proyectos a ningún servidor, ni tus fotos salvo con el “Borrado mejorado”
+    si lo eliges.</li>
   <li>No pide tu nombre, correo ni ningún dato para usarla.</li>
   <li>No vende datos personales.</li>
 </ul>
@@ -38,15 +38,16 @@ tus fotos, videos y proyectos se procesan y se guardan <strong>en tu teléfono</
     datos de diagnóstico y uso de la función, pero no tus imágenes.</li>
 </ul>
 
-<h2>Borrar con IA en la nube (opcional)</h2>
-<p>La primera vez que usas Eliminar, la app te pregunta si quieres usar la nube; puedes decir que no y cambiarlo
-cuando quieras en Ajustes. Si la activas, al borrar algo la app envía a nuestro servidor (alojado en Cloudflare) una
+<h2>Borrado mejorado (opcional)</h2>
+<p>En Eliminar puedes elegir entre “Borrado simple”, que se hace en tu teléfono, y “Borrado mejorado”, que se hace en
+nuestros servidores (con un límite diario y un anuncio por uso). La primera vez que lo usas, la app te explica qué hace
+y puedes elegir el simple. Si usas el mejorado, al borrar algo la app envía a nuestro servidor (alojado en Cloudflare) una
 copia reducida de la foto (máximo 512 píxeles de lado), una máscara en blanco y negro de lo que marcaste y un
 identificador aleatorio de esta instalación, que no te identifica. La foto la procesa el modelo de IA de Cloudflare
 (Workers AI) para rellenar el fondo y el resultado regresa a tu teléfono. <strong>No guardamos la foto ni el
 resultado</strong>, y Cloudflare procesa este modelo sin retener los datos. Del identificador solo se guarda cuántos
 borrados hizo ese día, para el límite diario, y se elimina a los dos días. Cloudflare, como cualquier servidor, recibe
-tu dirección IP. Si no la activas, no hay conexión, o se llega al límite del día, se borra con la IA de tu teléfono.</p>
+tu dirección IP. Si eliges el simple, no hay conexión o se llega al límite del día, se borra con la IA de tu teléfono.</p>
 
 <h2>Códigos sin anuncios</h2>
 <p>Si canjeas un código para quitar anuncios, la app envía a nuestro servidor (alojado en Cloudflare) una huella
