@@ -147,6 +147,27 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-f
 .telefonos:hover .tel{transform:translateY(-6px)}
 @media (max-width:760px){ .telefonos .tel:nth-child(1),.telefonos .tel:nth-child(4){display:none} }
 
+/* Capturas sin teléfono dibujado: el marco lo pone el CSS. */
+.tel.marco{background:#0a0a0c;border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:7px;box-shadow:0 24px 44px rgba(0,0,0,.75)}
+.tel.marco img{filter:none;border-radius:0}
+.pantalla{position:relative;border-radius:24px;overflow:hidden;line-height:0}
+/* Comparador antes/después. La foto ocupa del 7.65% al 71.65% de alto de la captura. */
+.comparador{--pos:50%;--foto-y:7.65%;--foto-h:64%}
+.cmp-antes{position:absolute;left:0;right:0;top:var(--foto-y);height:var(--foto-h);overflow:hidden;clip-path:inset(0 calc(100% - var(--pos)) 0 0);pointer-events:none}
+.cmp-antes img{position:absolute;left:0;top:0;width:100%;transform:translateY(-7.65%)}
+.cmp-linea{position:absolute;top:var(--foto-y);height:var(--foto-h);left:var(--pos);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none;box-shadow:0 0 10px rgba(0,0,0,.5)}
+.cmp-linea i{position:absolute;top:50%;left:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.cmp-linea i::before,.cmp-linea i::after{content:"";position:absolute;top:50%;width:0;height:0;border:4px solid transparent;margin-top:-4px}
+.cmp-linea i::before{left:4px;border-right-color:#0a0a0c}
+.cmp-linea i::after{right:4px;border-left-color:#0a0a0c}
+.cmp-et{position:absolute;top:calc(var(--foto-y) + 8px);font-size:10px;font-weight:600;color:#fff;background:rgba(0,0,0,.55);border-radius:999px;padding:3px 8px;pointer-events:none;line-height:1.4}
+.cmp-et.izq{left:8px}
+.cmp-et.der{right:8px}
+.cmp-rango{position:absolute;top:var(--foto-y);height:var(--foto-h);left:0;width:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none;background:transparent;touch-action:pan-y}
+.cmp-rango::-webkit-slider-thumb{-webkit-appearance:none;width:1px;height:100%;background:transparent;border:0}
+.cmp-rango::-moz-range-thumb{width:1px;height:100%;background:transparent;border:0}
+.cmp-rango:focus-visible{opacity:1;outline:2px solid var(--rojo,#ff2a2a);outline-offset:2px}
+
 /* ---- Showcase ---- */
 .showcase{display:flex;align-items:center;padding:72px 0;overflow:hidden}
 .showcase .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%}
@@ -317,12 +338,20 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
     <div class="section-head reveal">
       <span class="eyebrow cy">Nuevo</span>
       <h2>El color de vuelta, y un tatuaje de prueba</h2>
-      <p>Colorear foto antigua le devuelve el color a una foto en blanco y negro. Y Tatuaje coloca un diseño sobre la piel y lo acomoda al cuerpo, para ver cómo quedaría antes de pensar en la aguja. Las dos ocurren dentro del teléfono.</p>
+      <p>Colorear foto antigua le devuelve el color a una foto en blanco y negro. Y Tatuaje coloca un diseño sobre la piel y lo acomoda al cuerpo, para ver cómo quedaría antes de pensar en la aguja. Las dos ocurren dentro del teléfono. <b style="color:var(--text)">Arrastra la línea sobre la foto</b> para ver el antes y el después.</p>
     </div>
     <div class="telefonos reveal">
-      <div class="tel alto"><img src="capturas/tatuaje-herramienta.png" alt="La herramienta Tatuaje de Opsira con un diseño colocado sobre el hombro" loading="lazy" width="400" height="889"></div>
-      <div class="tel alto"><img src="capturas/colorear-antes.png" alt="Una foto en blanco y negro antes de colorearla" loading="lazy" width="400" height="889"></div>
-      <div class="tel alto"><img src="capturas/colorear-despues.png" alt="La misma foto ya coloreada por la IA del teléfono" loading="lazy" width="400" height="889"></div>
+      <div class="tel alto marco"><div class="pantalla"><img src="capturas/tatuaje-herramienta.png" alt="La herramienta Tatuaje de Opsira con un diseño colocado sobre el hombro" loading="lazy" width="400" height="889"></div></div>
+      <div class="tel alto marco">
+        <div class="pantalla comparador" id="cmp">
+          <img src="capturas/colorear-despues.png" alt="Una foto en blanco y negro recuperando su color en Opsira" loading="lazy" width="400" height="889">
+          <div class="cmp-antes" aria-hidden="true"><img src="capturas/colorear-antes.png" alt="" loading="lazy" width="400" height="889"></div>
+          <span class="cmp-linea" aria-hidden="true"><i></i></span>
+          <span class="cmp-et izq" aria-hidden="true">Antes</span>
+          <span class="cmp-et der" aria-hidden="true">Después</span>
+          <input class="cmp-rango" id="cmpRango" type="range" min="0" max="100" step="0.5" value="50" aria-label="Arrastra para comparar el antes y el después de colorear">
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -561,6 +590,16 @@ window.addEventListener('pointerup', function () {
   ir(actual + Math.round(-arrastre / 170)); x0 = null; arrastre = 0;
 });
 pintar(); reiniciar();
+
+/* Comparador antes/después: el deslizador invisible mueve la línea. Se usa un
+   <input type="range"> para que funcione con mouse, con el dedo y con el teclado. */
+(function(){
+  var caja = document.getElementById('cmp'), rango = document.getElementById('cmpRango');
+  if(!caja || !rango) return;
+  function pintar(){ caja.style.setProperty('--pos', rango.value + '%'); }
+  rango.addEventListener('input', pintar);
+  pintar();
+})();
 </script>
 </body>
 </html>
