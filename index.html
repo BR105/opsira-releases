@@ -151,19 +151,21 @@ header{position:sticky;top:0;z-index:50;background:rgba(10,10,12,.72);backdrop-f
 .tel.marco{background:#0a0a0c;border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:7px;box-shadow:0 24px 44px rgba(0,0,0,.75)}
 .tel.marco img{filter:none;border-radius:0}
 .pantalla{position:relative;border-radius:24px;overflow:hidden;line-height:0}
-/* Comparador antes/después. La foto ocupa del 7.65% al 71.65% de alto de la captura. */
-.comparador{--pos:50%;--foto-y:7.65%;--foto-h:64%}
-.cmp-antes{position:absolute;left:0;right:0;top:var(--foto-y);height:var(--foto-h);overflow:hidden;clip-path:inset(0 calc(100% - var(--pos)) 0 0);pointer-events:none}
-.cmp-antes img{position:absolute;left:0;top:0;width:100%;transform:translateY(-7.65%)}
-.cmp-linea{position:absolute;top:var(--foto-y);height:var(--foto-h);left:var(--pos);width:2px;background:#fff;transform:translateX(-1px);pointer-events:none;box-shadow:0 0 10px rgba(0,0,0,.5)}
+/* Comparador antes/después. Cada uno dice en qué rectángulo de SU captura cae la
+   foto (medido sobre los PNG), y la línea se mueve solo dentro de ese rectángulo. */
+.comparador{position:relative;--posfrac:.5;--foto-x:0%;--foto-w:100%;--foto-y:0%;--foto-h:100%}
+.comparador>img{display:block;width:100%;height:auto}
+.cmp-antes{position:absolute;inset:0;pointer-events:none;clip-path:inset(var(--foto-y) calc(100% - var(--foto-x) - var(--posfrac) * var(--foto-w)) calc(100% - var(--foto-y) - var(--foto-h)) var(--foto-x))}
+.cmp-antes img{display:block;width:100%;height:auto}
+.cmp-linea{position:absolute;top:var(--foto-y);height:var(--foto-h);left:calc(var(--foto-x) + var(--posfrac) * var(--foto-w));width:2px;background:#fff;transform:translateX(-1px);pointer-events:none;box-shadow:0 0 10px rgba(0,0,0,.5)}
 .cmp-linea i{position:absolute;top:50%;left:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.5)}
 .cmp-linea i::before,.cmp-linea i::after{content:"";position:absolute;top:50%;width:0;height:0;border:4px solid transparent;margin-top:-4px}
 .cmp-linea i::before{left:4px;border-right-color:#0a0a0c}
 .cmp-linea i::after{right:4px;border-left-color:#0a0a0c}
 .cmp-et{position:absolute;top:calc(var(--foto-y) + 8px);font-size:10px;font-weight:600;color:#fff;background:rgba(0,0,0,.55);border-radius:999px;padding:3px 8px;pointer-events:none;line-height:1.4}
-.cmp-et.izq{left:8px}
-.cmp-et.der{right:8px}
-.cmp-rango{position:absolute;top:var(--foto-y);height:var(--foto-h);left:0;width:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none;background:transparent;touch-action:pan-y}
+.cmp-et.izq{left:calc(var(--foto-x) + 8px)}
+.cmp-et.der{right:calc(var(--foto-x) + 8px)}
+.cmp-rango{position:absolute;top:var(--foto-y);height:var(--foto-h);left:var(--foto-x);width:var(--foto-w);margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none;background:transparent;touch-action:pan-y}
 .cmp-rango::-webkit-slider-thumb{-webkit-appearance:none;width:1px;height:100%;background:transparent;border:0}
 .cmp-rango::-moz-range-thumb{width:1px;height:100%;background:transparent;border:0}
 .cmp-rango:focus-visible{opacity:1;outline:2px solid var(--rojo,#ff2a2a);outline-offset:2px}
@@ -296,7 +298,16 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 <!-- FOTOS -->
 <section class="showcase" id="fotos">
   <div class="wrap">
-    <div class="vista slide-l"><div class="tel"><img src="testers/tel-1.png" alt="Pantalla de filtros de Opsira" loading="lazy" width="400" height="845"></div></div>
+    <div class="vista slide-l">
+      <div class="tel comparador" style="--foto-x:8.75%;--foto-w:82.5%;--foto-y:8.7%;--foto-h:54.78%">
+        <img src="capturas/tel-1-con.png" alt="Una foto con el filtro Musgo aplicado en Opsira" loading="lazy" width="400" height="805">
+        <div class="cmp-antes" aria-hidden="true"><img src="capturas/tel-1-sin.png" alt="" loading="lazy" width="400" height="805"></div>
+        <span class="cmp-linea" aria-hidden="true"><i></i></span>
+        <span class="cmp-et izq" aria-hidden="true">Antes</span>
+        <span class="cmp-et der" aria-hidden="true">Después</span>
+        <input class="cmp-rango" type="range" min="0" max="100" step="0.5" value="50" aria-label="Arrastra para comparar la foto con filtro y sin filtro">
+      </div>
+    </div>
     <div class="copy slide-r">
       <div class="step">Fotos</div>
       <h2>Filtros que puedes hacer tuyos</h2>
@@ -343,13 +354,13 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
     <div class="telefonos reveal">
       <div class="tel alto marco"><div class="pantalla"><img src="capturas/tatuaje-herramienta.png" alt="La herramienta Tatuaje de Opsira con un diseño colocado sobre el hombro" loading="lazy" width="400" height="889"></div></div>
       <div class="tel alto marco">
-        <div class="pantalla comparador" id="cmp">
+        <div class="pantalla comparador" style="--foto-x:0%;--foto-w:100%;--foto-y:7.65%;--foto-h:64%">
           <img src="capturas/colorear-despues.png" alt="Una foto en blanco y negro recuperando su color en Opsira" loading="lazy" width="400" height="889">
           <div class="cmp-antes" aria-hidden="true"><img src="capturas/colorear-antes.png" alt="" loading="lazy" width="400" height="889"></div>
           <span class="cmp-linea" aria-hidden="true"><i></i></span>
           <span class="cmp-et izq" aria-hidden="true">Antes</span>
           <span class="cmp-et der" aria-hidden="true">Después</span>
-          <input class="cmp-rango" id="cmpRango" type="range" min="0" max="100" step="0.5" value="50" aria-label="Arrastra para comparar el antes y el después de colorear">
+          <input class="cmp-rango" type="range" min="0" max="100" step="0.5" value="50" aria-label="Arrastra para comparar el antes y el después de colorear">
         </div>
       </div>
     </div>
@@ -359,18 +370,6 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
 <!-- VIDEO -->
 <section class="showcase" id="video">
   <div class="wrap">
-    <div class="vista slide-l"><div class="tel"><img src="testers/tel-3.png" alt="Efectos de video en Opsira" loading="lazy" width="400" height="845"></div></div>
-    <div class="copy slide-r">
-      <div class="step">Video</div>
-      <h2>Una línea de tiempo que no estorba</h2>
-      <p>Recorta, divide, duplica y reordena clips. Velocidad normal o con curvas, para cámara lenta y rápida dentro del mismo clip, congelar e invertir.</p>
-      <ul class="lista">
-        <li>Lienzo 9:16 para Reels, TikTok y Shorts, con fondo desenfocado.</li>
-        <li>Transiciones, texto y stickers con duración, música, voz en off y efectos de sonido.</li>
-        <li>Corta al ritmo de tu música y subtítulos palabra por palabra.</li>
-        <li>Exporta en MP4 hasta 4K o como GIF.</li>
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -594,11 +593,13 @@ pintar(); reiniciar();
 /* Comparador antes/después: el deslizador invisible mueve la línea. Se usa un
    <input type="range"> para que funcione con mouse, con el dedo y con el teclado. */
 (function(){
-  var caja = document.getElementById('cmp'), rango = document.getElementById('cmpRango');
-  if(!caja || !rango) return;
-  function pintar(){ caja.style.setProperty('--pos', rango.value + '%'); }
-  rango.addEventListener('input', pintar);
-  pintar();
+  document.querySelectorAll('.comparador').forEach(function(caja){
+    var rango = caja.querySelector('.cmp-rango');
+    if(!rango) return;
+    function pintar(){ caja.style.setProperty('--posfrac', rango.value / 100); }
+    rango.addEventListener('input', pintar);
+    pintar();
+  });
 })();
 </script>
 </body>
