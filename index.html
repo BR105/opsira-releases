@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Opsira — Editor de foto y video para Android</title>
-<meta name="description" content="Edita fotos y videos gratis en tu Android: filtros, inteligencia artificial en el propio teléfono, texto, video y collage. Sin marca de agua y sin suscripciones.">
+<meta name="description" content="Edita fotos y videos gratis en tu Android: filtros, cámara con filtros en vivo, inteligencia artificial en el propio teléfono (colorear fotos antiguas, quitar el fondo), video y collage. Sin marca de agua y sin suscripciones.">
 <link rel="icon" type="image/png" href="assets/opsira-icono.png">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="canonical" href="https://br105.github.io/opsira-releases/">
@@ -30,7 +30,7 @@
   "operatingSystem": "Android",
   "url": "https://br105.github.io/opsira-releases/",
   "inLanguage": "es",
-  "description": "Editor de foto y video para Android: filtros, recorte, quitar el fondo, collage, texto y subtítulos, con inteligencia artificial que corre en el propio teléfono. Sin marca de agua y sin suscripciones.",
+  "description": "Editor de foto y video para Android: filtros, cámara con filtros en vivo, recorte, quitar el fondo, colorear fotos antiguas, collage, texto y subtítulos, con inteligencia artificial que corre en el propio teléfono. Sin marca de agua y sin suscripciones.",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MXN" },
   "author": { "@type": "Organization", "name": "Gecko Apps", "url": "https://br105.github.io/" }
 }
@@ -239,6 +239,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
       <a href="#fotos">Fotos</a>
       <a href="#ia">Inteligencia artificial</a>
       <a href="#video">Video</a>
+      <a href="#camara">Cámara</a>
       <a class="btn btn-primary" href="testers.html">Probarla</a>
     </nav>
   </div>
@@ -249,7 +250,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
   <div class="wrap">
     <img class="hero-ico" src="assets/opsira-icono.png" alt="" width="160" height="160">
     <h1>Edita fotos y videos <span class="grad">sin marca de agua</span></h1>
-    <p class="hero-sub">Filtros, inteligencia artificial que corre en tu propio teléfono, video y collage. Gratis, sin suscripciones y sin pagos dentro de la app.</p>
+    <p class="hero-sub">Filtros, inteligencia artificial que corre en tu propio teléfono, video, collage y una cámara que dispara con el filtro ya puesto. Gratis, sin suscripciones y sin pagos dentro de la app.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="testers.html">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
@@ -301,7 +302,9 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
         <li>Quitar fondo: deja solo a la persona o el objeto.</li>
         <li>Eliminar objetos: borra lo que sobra de la foto.</li>
         <li>Mejorar HD: sube la resolución y la nitidez.</li>
-        <li>Retrato: desenfoca el fondo como una cámara profesional.</li>
+        <li>Retrato: desenfoca el fondo como una cámara profesional, y retoca piel, dientes y ojos.</li>
+        <li>Colorear foto antigua: una foto en blanco y negro vuelve a tener color.</li>
+        <li>Difuminar caras y quitar los datos ocultos antes de publicar.</li>
         <li>Subtítulos automáticos para tus videos.</li>
       </ul>
     </div>
@@ -322,6 +325,34 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
         <li>Corta al ritmo de tu música y subtítulos palabra por palabra.</li>
         <li>Exporta en MP4 hasta 4K o como GIF.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CÁMARA -->
+<section class="section" id="camara" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow cy">Cámara</span>
+      <h2>Dispara con el filtro ya puesto</h2>
+      <p>La cámara de Opsira pinta la vista previa con el mismo motor del editor: lo que ves en la pantalla es lo que queda en la foto.</p>
+    </div>
+    <div class="cards reveal">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h2.5l1.2-2h6.6l1.2 2H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
+        <h3>Filtros y efectos en vivo</h3>
+        <p>Elige el filtro y el efecto antes de disparar. Al tomar la foto se abre el editor con todo puesto, para ajustar o guardar.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7.5 5v14M16.5 5v14M3 9.5h4.5M3 14.5h4.5M16.5 9.5H21M16.5 14.5H21"/></svg></div>
+        <h3>Modo Rollo</h3>
+        <p>Fuga de luz, grano y la fecha impresa en la esquina, como las cámaras desechables de antes.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"/><path d="M16 11l5-3v8l-5-3z"/></svg></div>
+        <h3>Foto y video</h3>
+        <p>Graba video con el mismo look, cambia de cámara y enciende el flash sin salir de la pantalla.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -425,6 +456,7 @@ html.no-js .reveal,html.no-js .slide-l,html.no-js .slide-r{opacity:1;transform:n
           <a href="#fotos">Fotos</a>
           <a href="#ia">Inteligencia artificial</a>
           <a href="#video">Video</a>
+          <a href="#camara">Cámara</a>
           <a href="testers.html">Probarla como tester</a>
         </div>
         <div class="foot-col">
