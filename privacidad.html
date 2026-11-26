@@ -8,55 +8,76 @@
   :root { color-scheme: light dark; }
   body { font: 16px/1.6 system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
   h1 { font-size: 1.6rem; } h2 { font-size: 1.15rem; margin-top: 2rem; }
+  .resumen { padding: 12px 16px; border-radius: 12px; background: rgba(127,127,127,.12); }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { text-align: left; vertical-align: top; padding: 6px 8px; border-bottom: 1px solid rgba(127,127,127,.3); }
 </style>
 </head>
 <body>
 <h1>Política de privacidad de Opsira</h1>
-<p>Última actualización: 20 de noviembre de 2026.</p>
+<p>Última actualización: 26 de noviembre de 2026.</p>
 
-<p>Opsira es un editor de fotos y videos gratuito para Android. No tiene cuentas de usuario:
-tus fotos, videos y proyectos se procesan y se guardan <strong>en tu teléfono</strong>. La única excepción es
-el “Borrado mejorado”, solo si tú lo eliges (ver abajo).</p>
+<div class="resumen">
+<p><strong>En resumen:</strong> Opsira es un editor de fotos y videos gratuito para Android, de Gecko Apps. No tiene
+cuentas ni te pide datos. Tus fotos, videos y proyectos se editan y se guardan <strong>en tu teléfono</strong>. Solo
+salen del teléfono si tú eliges el “Borrado mejorado”, y aun así no los guardamos. La app se mantiene con anuncios de
+Google AdMob.</p>
+</div>
 
 <h2>Lo que la app no hace</h2>
 <ul>
-  <li>No sube tus videos, audio ni proyectos a ningún servidor, ni tus fotos salvo con el “Borrado mejorado”
-    si lo eliges.</li>
-  <li>No pide tu nombre, correo ni ningún dato para usarla.</li>
-  <li>No vende datos personales.</li>
+  <li>No sube tus fotos, videos, audio ni proyectos a ningún servidor (la única excepción, opcional, es el
+    “Borrado mejorado”, explicado abajo).</li>
+  <li>No pide tu nombre, correo ni ningún otro dato para usarla, y no tiene cuentas de usuario.</li>
+  <li>No vende datos personales ni los comparte con terceros, fuera de lo que hace Google AdMob para mostrar
+    anuncios (ver “Anuncios”).</li>
+  <li>No pone marca de agua en lo que exportas, salvo la firma que tú mismo actives.</li>
 </ul>
 
-<h2>Funciones que usan datos dentro del teléfono</h2>
+<h2>Permisos y funciones que se quedan en tu teléfono</h2>
 <ul>
-  <li><strong>Fotos y videos:</strong> solo los que eliges con el selector de Android. Las ediciones se guardan en el
-    almacenamiento privado de la app y lo que exportas, en tu galería.</li>
-  <li><strong>Cámara:</strong> solo cuando abres la Cámara de la app, para mostrar la vista previa con filtros y tomar
-    la foto. La foto pasa directo al editor en tu teléfono; no se sube a ningún servidor ni se comparte. Tú decides si
-    la guardas en tu galería. Puedes quitar el permiso en los ajustes de Android y el resto de la app sigue
-    funcionando.</li>
-  <li><strong>Micrófono:</strong> solo cuando tocas Grabar en la voz en off. La grabación se queda en el proyecto, en tu
-    teléfono.</li>
-  <li><strong>Funciones con IA</strong> (quitar fondo, eliminar y seleccionar objetos, mejorar HD, colorear fotos antiguas, subtítulos automáticos): se
-    ejecutan en el teléfono. Los modelos se descargan una vez, solo si aceptas, desde GitHub (github.com) o Hugging Face (huggingface.co), que, como cualquier sitio web, reciben tu dirección IP al descargarlos. Quitar fondo y Retrato (ojos y dientes) usan ML Kit de Google,
-    que funciona en el teléfono y puede enviar a Google datos de diagnóstico y uso de la función, pero no tus
-    imágenes.</li>
+  <li><strong>Fotos y videos:</strong> solo los que eliges con el selector de la app o de Android. Las ediciones y
+    proyectos se guardan en el almacenamiento privado de la app; lo que exportas, en tu galería. Tus stickers propios
+    (“Mis stickers”), tus estilos de texto guardados y tu firma o logo también se guardan solo en el teléfono.</li>
+  <li><strong>Cámara:</strong> solo cuando abres la Cámara de la app, para la vista previa con filtros y para tomar
+    fotos o grabar videos. Lo que tomas pasa directo al editor en tu teléfono; no se sube ni se comparte.</li>
+  <li><strong>Micrófono:</strong> solo cuando grabas un video con la Cámara (para el sonido del video) o tocas Grabar
+    en la voz en off. Si no das el permiso, el video se graba sin sonido. La grabación se queda en el teléfono.</li>
+  <li><strong>Notificaciones:</strong> solo para mostrar el avance mientras se exporta un video en segundo plano.</li>
+  <li><strong>Funciones con IA</strong> (quitar fondo, retrato, eliminar y seleccionar objetos, mejorar en HD,
+    colorear fotos antiguas, subtítulos automáticos): se ejecutan en el teléfono. Algunos modelos se descargan una
+    vez, solo si aceptas, desde GitHub (github.com) o Hugging Face (huggingface.co), que, como cualquier sitio web,
+    reciben tu dirección IP al descargarlos. Quitar fondo y Retrato usan ML Kit de Google, que funciona en el teléfono
+    y puede enviar a Google datos de diagnóstico y de uso de la función, pero no tus imágenes.</li>
 </ul>
+<p>Puedes quitar cualquier permiso en los ajustes de Android; el resto de la app sigue funcionando.</p>
 
 <h2>Borrado mejorado (opcional)</h2>
-<p>En Eliminar puedes elegir entre “Borrado simple”, que se hace en tu teléfono, y “Borrado mejorado”, que se hace en
-nuestros servidores (con un límite diario y un anuncio por uso). La primera vez que lo usas, la app te explica qué hace
-y puedes elegir el simple. Si usas el mejorado, al borrar algo la app envía a nuestro servidor (alojado en Cloudflare) una
-copia reducida de la foto (máximo 512 píxeles de lado), una máscara en blanco y negro de lo que marcaste y un
-identificador aleatorio de esta instalación, que no te identifica. La foto la procesa el modelo de IA de Cloudflare
-(Workers AI) para rellenar el fondo y el resultado regresa a tu teléfono. <strong>No guardamos la foto ni el
-resultado</strong>, y Cloudflare procesa este modelo sin retener los datos. Del identificador solo se guarda cuántos
-borrados hizo ese día, para el límite diario, y se elimina a los dos días. Cloudflare, como cualquier servidor, recibe
-tu dirección IP. Si eliges el simple, no hay conexión o se llega al límite del día, se borra con la IA de tu teléfono.</p>
+<p>En Eliminar puedes elegir entre el “Borrado simple”, que se hace en tu teléfono, y el “Borrado mejorado”, que se
+hace en nuestro servidor (con un límite diario). La primera vez la app te explica qué hace y puedes quedarte con el
+simple. Si usas el mejorado, la app envía a nuestro servidor (alojado en Cloudflare):</p>
+<ul>
+  <li>una copia reducida de la foto (máximo 512 píxeles de lado) y una máscara en blanco y negro de lo que marcaste;</li>
+  <li>un identificador aleatorio de esta instalación, que no te identifica;</li>
+  <li>un comprobante de integridad de Google Play (ver abajo).</li>
+</ul>
+<p>La foto la procesa el modelo de IA de Cloudflare (Workers AI) para rellenar el fondo, y el resultado regresa a tu
+teléfono. <strong>No guardamos la foto ni el resultado</strong>, y Cloudflare procesa este modelo sin retener los
+datos. Del identificador solo se guarda cuántos borrados hizo ese día, para el límite, y se elimina a los dos días.
+Si eliges el simple, no hay conexión o se llega al límite del día, se borra con la IA de tu teléfono.</p>
 
 <h2>Códigos sin anuncios</h2>
-<p>Si canjeas un código para quitar anuncios, la app envía a nuestro servidor (alojado en Cloudflare) una huella
-cifrada del código y un identificador aleatorio de esta instalación, que no te identifica. Sirve solo para limitar en
-cuántos teléfonos se usa cada código. Cloudflare, como cualquier servidor, recibe tu dirección IP.</p>
+<p>Si canjeas un código para quitar anuncios, la app envía a nuestro servidor (en Cloudflare) una huella cifrada del
+código, un identificador aleatorio de esta instalación y un comprobante de integridad de Google Play. Sirve solo para
+limitar en cuántos teléfonos se usa cada código. La app también consulta una lista de códigos válidos en GitHub
+(raw.githubusercontent.com), que recibe tu dirección IP.</p>
+
+<h2>Protección contra copias modificadas</h2>
+<p>Para que los desbloqueos y el Borrado mejorado no se usen desde copias alteradas de la app, Opsira usa la
+<strong>API Play Integrity</strong> de Google. Al usar esas dos funciones, Google Play genera un comprobante que dice
+si la app es la original de Google Play y si el teléfono es un dispositivo Android genuino; nuestro servidor solo lo
+revisa y guarda un conteo diario de resultados, sin datos tuyos. Google trata esa información según su
+<a href="https://policies.google.com/privacy">política de privacidad</a>.</p>
 
 <h2>Anuncios</h2>
 <p>La app se financia con anuncios de Google AdMob. Para mostrarlos y medirlos, el SDK de Google puede recopilar el
@@ -67,15 +88,31 @@ restablecer o eliminar tu identificador de publicidad en los ajustes de Android.
 <p>Más información: <a href="https://policies.google.com/technologies/partner-sites">cómo usa Google los datos de las
 apps de sus socios</a>.</p>
 
+<h2>Reportes de errores</h2>
+<p>Si la app falla, guarda el detalle técnico del error en tu teléfono y, la próxima vez que la abras, te pregunta si
+quieres enviarlo. Solo se envía si aceptas, y va por correo desde tu propia app de correo, así que ves y decides qué
+se manda. Nunca lleva tus fotos ni videos. Lo mismo con “Reportar un problema” en Ajustes.</p>
+
+<h2>Resumen de datos</h2>
+<table>
+  <tr><th>Dato</th><th>¿Sale del teléfono?</th><th>Para qué</th></tr>
+  <tr><td>Fotos, videos, audio, proyectos</td><td>No (salvo la foto reducida del Borrado mejorado, si lo eliges; no se guarda)</td><td>Editar</td></tr>
+  <tr><td>Identificador aleatorio de la instalación</td><td>Solo con Borrado mejorado o códigos</td><td>Límite diario y de teléfonos</td></tr>
+  <tr><td>Comprobante de Play Integrity</td><td>Solo con Borrado mejorado o códigos</td><td>Evitar copias modificadas</td></tr>
+  <tr><td>ID de publicidad, IP, datos del dispositivo</td><td>Sí, a Google AdMob</td><td>Mostrar y medir anuncios</td></tr>
+  <tr><td>Reporte de error</td><td>Solo si aceptas enviarlo por correo</td><td>Arreglar fallos</td></tr>
+</table>
+
 <h2>Menores</h2>
 <p>La app no está dirigida a menores de 13 años.</p>
 
 <h2>Borrar tus datos</h2>
-<p>Borra un proyecto desde la pantalla de inicio, o desinstala la app para eliminar todo lo que guardó. Lo que
-exportaste a la galería se queda ahí hasta que lo borres.</p>
+<p>Borra un proyecto desde la pantalla de inicio, o desinstala la app para eliminar todo lo que guardó en el
+teléfono. Lo que exportaste a la galería se queda ahí hasta que lo borres. Nuestros servidores no guardan nada que te
+identifique, y los conteos diarios se eliminan solos.</p>
 
 <h2>Contacto</h2>
-<p>Dudas o reportes: <a href="mailto:geckoappsdev@gmail.com">geckoappsdev@gmail.com</a></p>
+<p>Gecko Apps. Dudas o reportes: <a href="mailto:geckoappsdev@gmail.com">geckoappsdev@gmail.com</a></p>
 
 <h2>Cambios</h2>
 <p>Si esta política cambia, se actualiza esta página con su nueva fecha.</p>
